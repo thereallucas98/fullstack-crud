@@ -33,7 +33,7 @@ export class CreateUsers1667945921748 implements MigrationInterface {
             type: 'varchar',
           },
           {
-            name: 'isDeleted',
+            name: 'is_deleted',
             type: 'boolean',
             default: false,
           },

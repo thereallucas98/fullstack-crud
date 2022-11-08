@@ -28,7 +28,7 @@ class User {
   registry: string;
 
   @Column()
-  isDeleted: boolean;
+  is_deleted: boolean;
 
   @CreateDateColumn()
   created_at: Date;
