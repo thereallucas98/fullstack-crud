@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres
+    container_name: db_snet
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=snet
+      - POSTGRES_DB=snet
+    volumes:
+      - pgdata:/data/postgres
+  app:
+    build: .
+    container_name: snet
+    ports:
+      - 3333:3333
+    volumes:
+      - .:/usr/app
+    links:
+      - db
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
+    driver: local
