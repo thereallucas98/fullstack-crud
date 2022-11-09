@@ -1,10 +1,9 @@
 import { getCustomRepository } from 'typeorm';
-
-import { User } from '@modules/typeorm/entities/User';
-import { UsersRepository } from '@modules/typeorm/repositories/UsersRepository';
+import { hash } from 'bcryptjs';
 
 import AppError from '@shared/errors/AppError';
-import { hash } from 'bcryptjs';
+import { User } from '@modules/users/typeorm/entities/User';
+import { UsersRepository } from '@modules/users/typeorm/repositories/UsersRepository';
 
 interface IRequest {
   name: string;
@@ -13,7 +12,7 @@ interface IRequest {
   password: string;
 }
 
-class CreateUserService {
+class CreateAccountService {
   public async execute({
     name,
     email,
@@ -52,4 +51,4 @@ class CreateUserService {
   }
 }
 
-export default CreateUserService;
+export default CreateAccountService;

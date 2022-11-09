@@ -1,14 +1,14 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
 
-import UsersController from '../controllers/UserController';
+import AccountController from '../controllers/AccountController';
 
-const usersRouter = Router();
+const accountRouter = Router();
 
-const usersController = new UsersController();
+const accountController = new AccountController();
 
 // Create an user
-usersRouter.post(
+accountRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
@@ -18,10 +18,7 @@ usersRouter.post(
       birthday: Joi.string().required(),
     },
   }),
-  usersController.create,
+  accountController.create,
 );
 
-// List all deleted users
-usersRouter.get('/', usersController.show);
-
-export default usersRouter;
+export default accountRouter;
