@@ -8,6 +8,7 @@ import DeleteAccountService from './DeleteAccountService';
 // Users
 import CreateUserService from './CreateUserService';
 import ListAvailableUsersService from './ListAvailableUsers';
+import ListDeletedUsersService from './ListDeletedUsersService';
 import SoftDeleteService from './SoftDeleteService';
 import RestoreUserService from './RestoreUserService';
 
@@ -22,6 +23,7 @@ export {
   DeleteAccountService,
   CreateUserService,
   ListAvailableUsersService,
+  ListDeletedUsersService,
   SoftDeleteService,
   RestoreUserService,
   CreateSessionService,

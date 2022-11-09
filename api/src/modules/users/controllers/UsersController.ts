@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import {
   CreateUserService,
   ListAvailableUsersService,
+  ListDeletedUsersService,
   RestoreUserService,
   SoftDeleteService,
 } from '../services';
@@ -27,6 +28,17 @@ export default class UsersController {
     const showUsers = new ListAvailableUsersService();
 
     const users = await showUsers.execute();
+
+    return response.json(users);
+  }
+
+  public async deletedOnes(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const showDeletedUsers = new ListDeletedUsersService();
+
+    const users = await showDeletedUsers.execute();
 
     return response.json(users);
   }

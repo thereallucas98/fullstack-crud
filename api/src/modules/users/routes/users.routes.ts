@@ -26,6 +26,8 @@ usersRouter.post(
 // List all deleted users
 usersRouter.get('/', isAuthenticated, usersController.show);
 
+usersRouter.get('/deleted-users', isAuthenticated, usersController.deletedOnes);
+
 usersRouter.patch(
   '/soft-delete/:id',
   celebrate({
