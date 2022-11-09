@@ -1,4 +1,18 @@
+// Account
 import CreateAccountService from './CreateAccountService';
+import ShowProfileService from './ShowProfileService';
+
+// Users
+import CreateUserService from './CreateUserService';
 import ListAvailableUsersService from './ListAvailableUsers';
 
-export { CreateAccountService, ListAvailableUsersService };
+// Session
+import CreateSessionService from './CreateSessionService';
+
+export {
+  CreateAccountService,
+  ShowProfileService,
+  CreateUserService,
+  ListAvailableUsersService,
+  CreateSessionService,
+};

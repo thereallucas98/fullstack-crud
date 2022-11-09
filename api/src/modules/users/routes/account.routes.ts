@@ -1,11 +1,14 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
 
+import isAuthenticated from '@shared/http/middlewares/isAuthenticated';
 import AccountController from '../controllers/AccountController';
+import ProfileController from '../controllers/ProfileController';
 
 const accountRouter = Router();
 
 const accountController = new AccountController();
+const profileController = new ProfileController();
 
 // Create an user
 accountRouter.post(
@@ -20,5 +23,7 @@ accountRouter.post(
   }),
   accountController.create,
 );
+
+accountRouter.get('/me', isAuthenticated, profileController.show);
 
 export default accountRouter;
