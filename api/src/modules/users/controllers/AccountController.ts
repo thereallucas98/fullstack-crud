@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { CreateAccountService } from '../services';
+import { CreateAccountService, DeleteAccountService } from '../services';
 
 export default class AccountController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -16,5 +16,17 @@ export default class AccountController {
     });
 
     return response.json(user);
+  }
+
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const user_id = request.user.id;
+
+    const updateProfile = new DeleteAccountService();
+
+    const user = await updateProfile.execute({
+      user_id,
+    });
+
+    return response.json({ message: `${user.name} was deleted` });
   }
 }

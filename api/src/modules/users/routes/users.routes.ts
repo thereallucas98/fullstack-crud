@@ -25,4 +25,27 @@ usersRouter.post(
 
 // List all deleted users
 usersRouter.get('/', isAuthenticated, usersController.show);
+
+usersRouter.patch(
+  '/soft-delete/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  isAuthenticated,
+  usersController.softDelete,
+);
+
+usersRouter.patch(
+  '/restore-user/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  isAuthenticated,
+  usersController.restoreUser,
+);
+
 export default usersRouter;

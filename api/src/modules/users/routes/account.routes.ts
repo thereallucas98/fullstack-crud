@@ -50,4 +50,6 @@ accountRouter.patch(
 
 accountRouter.get('/me', isAuthenticated, profileController.show);
 
+accountRouter.delete('/me', isAuthenticated, accountController.delete);
+
 export default accountRouter;
