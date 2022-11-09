@@ -10,7 +10,7 @@ const accountRouter = Router();
 const accountController = new AccountController();
 const profileController = new ProfileController();
 
-// Create an user
+// Create account
 accountRouter.post(
   '/',
   celebrate({
@@ -22,6 +22,30 @@ accountRouter.post(
     },
   }),
   accountController.create,
+);
+
+accountRouter.patch(
+  '/me',
+  celebrate({
+    [Segments.BODY]: {
+      name: Joi.string().required(),
+      email: Joi.string().required(),
+    },
+  }),
+  isAuthenticated,
+  profileController.update,
+);
+
+accountRouter.patch(
+  '/password',
+  celebrate({
+    [Segments.BODY]: {
+      password: Joi.string().required(),
+      old_password: Joi.string().required(),
+    },
+  }),
+  isAuthenticated,
+  profileController.password,
 );
 
 accountRouter.get('/me', isAuthenticated, profileController.show);

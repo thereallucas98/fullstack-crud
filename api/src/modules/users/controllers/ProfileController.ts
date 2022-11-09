@@ -1,13 +1,14 @@
 import { Request, Response } from 'express';
 
-import { ShowProfileService } from '../services';
+import {
+  ShowProfileService,
+  UpdatePasswordService,
+  UpdateProfileService,
+} from '../services';
 
 export default class ProfileController {
   public async show(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;
-
-    console.log('request', request.user);
-    console.log('user_id', user_id);
 
     const showProfile = new ShowProfileService();
 
@@ -16,20 +17,38 @@ export default class ProfileController {
     return response.json(user);
   }
 
-  // public async update(request: Request, response: Response): Promise<Response> {
-  //   const { name, email, password, old_password } = request.body;
-  //   const user_id = request.user.id;
+  public async update(request: Request, response: Response): Promise<Response> {
+    const { name, email } = request.body;
 
-  //   const updateProfile = new UpdateProfileService();
+    const user_id = request.user.id;
 
-  //   const user = await updateProfile.execute({
-  //     user_id,
-  //     name,
-  //     email,
-  //     password,
-  //     old_password,
-  //   });
+    const updateProfile = new UpdateProfileService();
 
-  //   return response.json(user);
-  // }
+    const user = await updateProfile.execute({
+      user_id,
+      name,
+      email,
+    });
+
+    return response.json(user);
+  }
+
+  public async password(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { password, old_password } = request.body;
+
+    const user_id = request.user.id;
+
+    const updatePassword = new UpdatePasswordService();
+
+    const user = await updatePassword.execute({
+      user_id,
+      password,
+      old_password,
+    });
+
+    return response.json(user);
+  }
 }
