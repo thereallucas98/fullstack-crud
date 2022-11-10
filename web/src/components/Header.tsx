@@ -49,7 +49,9 @@ export function Header() {
         <Flex align="center">
           <Box mr="4" textAlign="right">
             <Text>David Lucas</Text>
-            <Text color="gray.300" fontSize="small">david.lucas@snet.com.br</Text>
+            <Text color="gray.300" fontSize="small">
+              david.lucas@snet.com.br
+            </Text>
           </Box>
 
           <Avatar size="md" name="David Lucas" />
