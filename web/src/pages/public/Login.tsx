@@ -1,4 +1,11 @@
-import { Button, Flex, Input, Stack, FormLabel } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  Input,
+  Stack,
+  FormLabel,
+  FormControl,
+} from "@chakra-ui/react";
 
 export function Login() {
   return (
@@ -13,33 +20,37 @@ export function Login() {
         flexDir="column"
       >
         <Stack spacing="4">
-          <FormLabel htmlFor="email">E-mail</FormLabel>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            focusBorderColor="blue.500"
-            bgColor="gray.900"
-            variant="filled"
-            _hover={{
-              bgColor: "gray.900",
-            }}
-            size="lg"
-          />
+          <FormControl>
+            <FormLabel htmlFor="email">E-mail</FormLabel>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              focusBorderColor="blue.500"
+              bgColor="gray.900"
+              variant="filled"
+              _hover={{
+                bgColor: "gray.900",
+              }}
+              size="lg"
+            />
+          </FormControl>
 
-          <FormLabel htmlFor="password">Senha</FormLabel>
-          <Input
-            id="password"
-            name="password"
-            type="password"
-            focusBorderColor="blue.500"
-            bgColor="gray.900"
-            variant="filled"
-            _hover={{
-              bgColor: "gray.900",
-            }}
-            size="lg"
-          />
+          <FormControl>
+            <FormLabel htmlFor="password">Senha</FormLabel>
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              focusBorderColor="blue.500"
+              bgColor="gray.900"
+              variant="filled"
+              _hover={{
+                bgColor: "gray.900",
+              }}
+              size="lg"
+            />
+          </FormControl>
         </Stack>
 
         <Button type="submit" mt="6" colorScheme="blue" size="lg">
