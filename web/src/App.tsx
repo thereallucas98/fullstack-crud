@@ -1,9 +1,9 @@
-import { UserList } from "./pages/private/UserList";
+import { CreateUser } from "./pages/private/CreateUser";
 
 function App() {
 
   return (
-    <UserList />
+    <CreateUser />
   )
 }
 
