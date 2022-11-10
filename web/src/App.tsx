@@ -1,9 +1,9 @@
-import { Login } from "./pages/public/Login";
+import { Dashboard } from "./pages/private/Dashboard";
 
 function App() {
 
   return (
-    <Login />
+    <Dashboard />
   )
 }
 
