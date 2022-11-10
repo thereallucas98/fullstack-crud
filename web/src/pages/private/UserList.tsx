@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { PencilSimpleLine, Plus } from "phosphor-react";
 import { Header } from "../../components/Header";
+import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
 
 export function UserList() {
@@ -79,6 +80,8 @@ export function UserList() {
               </Tr>
             </Tbody>
           </Table>
+
+          <Pagination />
         </Box>
       </Flex>
     </Box>
