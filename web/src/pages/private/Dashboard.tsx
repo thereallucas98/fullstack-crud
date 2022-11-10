@@ -63,7 +63,7 @@ const options = {
   },
   fill: {
     opacity: 0.3,
-    // type: "gradient",
+    type: "gradient",
     gradient: {
       shade: "dark",
       opacityFrom: 0.7,
