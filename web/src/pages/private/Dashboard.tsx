@@ -1,8 +1,8 @@
 import { Box, Flex, SimpleGrid, Text, theme } from "@chakra-ui/react";
 import { Header } from "../../components/Header";
-import { Sidebar } from "../../components/Sidebar";
 
 import Chart from "react-apexcharts";
+import { Sidebar } from "../../components/Sidebar";
 
 const options = {
   chart: {
