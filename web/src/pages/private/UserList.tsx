@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Checkbox,
   Flex,
   Heading,
   Icon,
@@ -15,7 +14,6 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { PencilSimpleLine, Plus } from "phosphor-react";
-import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
 
@@ -27,8 +25,6 @@ export function UserList() {
 
   return (
     <Box>
-      <Header />
-
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
         <Sidebar />
 

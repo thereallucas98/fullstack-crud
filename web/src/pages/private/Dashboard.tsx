@@ -1,7 +1,6 @@
 import { Box, Flex, SimpleGrid, Text, theme } from "@chakra-ui/react";
-import { Header } from "../../components/Header";
-
 import Chart from "react-apexcharts";
+
 import { Sidebar } from "../../components/Sidebar";
 
 const options = {
@@ -76,8 +75,6 @@ const series = [{ name: "series1", data: [21, 120, 10, 28, 61, 18, 109] }];
 export function Dashboard() {
   return (
     <Flex direction="column" h="100vh">
-      <Header />
-
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
         <Sidebar />
 
@@ -88,14 +85,14 @@ export function Dashboard() {
           alignItems="flex-start"
         >
           <Box p={["6", "8"]} bg="gray.800" borderRadius={8} pb="4">
-            <Text fontSize="lg" mb="4">
+            <Text as="span" fontSize="lg" mb="4">
               Usuários Cadastrados
             </Text>
             <Chart type="area" height={160} options={options} series={series} />
           </Box>
 
           <Box p={["6", "8"]} bg="gray.800" borderRadius={8}>
-            <Text fontSize="lg" mb="4">
+            <Text as="span" fontSize="lg" mb="4">
               Usuários Deletados
               <Chart
                 type="area"

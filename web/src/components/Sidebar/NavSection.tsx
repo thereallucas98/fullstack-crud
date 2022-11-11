@@ -10,6 +10,7 @@ export function NavSection({ title, children }: NavSectionProps) {
   return (
     <Box>
       <Text
+        as="span"
         fontWeight="bold"
         color="gray.400"
         fontSize="small"

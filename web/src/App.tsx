@@ -1,12 +1,19 @@
-import { CreateUser } from "./pages/private/CreateUser";
-import { Dashboard } from "./pages/private/Dashboard";
-import { UserList } from "./pages/private/UserList";
+import { ChakraProvider } from "@chakra-ui/react";
+import { BrowserRouter } from "react-router-dom";
+import { SidebarDrawerProvider } from "./contexts/SidebarDrawerContext";
+import { Routes } from "./routes";
+import { theme } from "./styles/theme";
 
 function App() {
-
   return (
-    <CreateUser />
-  )
+    <ChakraProvider theme={theme}>
+      <SidebarDrawerProvider>
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
+      </SidebarDrawerProvider>
+    </ChakraProvider>
+  );
 }
 
-export default App
+export default App;
