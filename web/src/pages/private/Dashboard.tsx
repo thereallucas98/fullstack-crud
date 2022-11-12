@@ -79,7 +79,7 @@ export function Dashboard() {
         <Sidebar />
 
         <SimpleGrid
-          flex="1"
+          width="80%"
           gap="4"
           minChildWidth="320px"
           alignItems="flex-start"

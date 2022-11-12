@@ -4,6 +4,13 @@ import {
   Flex,
   Heading,
   Icon,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Table,
   Tbody,
   Td,
@@ -12,12 +19,23 @@ import {
   Thead,
   Tr,
   useBreakpointValue,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { PencilSimpleLine, Plus } from "phosphor-react";
+import { Link as RRLink } from "react-router-dom";
+import { PencilSimpleLine, Plus, TrashSimple } from "phosphor-react";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
+import { Input } from "../../components/Form/Input";
 
 export function UserList() {
+  /**
+   * Following some discussion in the main documentation: https://github.com/chakra-ui/chakra-ui/discussions/3378
+   * it was recommended to use and import useDisclosure and create it owns modal constants
+   * but I rather to change in the future to use contexts.
+   */
+  const editModal = useDisclosure();
+  const deleteModal = useDisclosure();
+
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true,
@@ -35,11 +53,11 @@ export function UserList() {
             </Heading>
 
             <Button
-              as="a"
-              size="sm"
+              as={RRLink}
               fontSize="sm"
               colorScheme="blue"
               leftIcon={<Icon as={Plus} />}
+              to="/users/create"
             >
               Criar usuário
             </Button>
@@ -69,15 +87,28 @@ export function UserList() {
                 </Td>
                 {isWideVersion ? <Td>04 de abril de 2021</Td> : null}
                 {isWideVersion ? (
-                  <Td>
+                  <Td flexDirection="row">
                     <Button
-                      as="a"
+                      as="button"
                       size="sm"
                       fontSize="sm"
                       colorScheme="purple"
-                      leftIcon={<Icon as={PencilSimpleLine} />}
+                      onClick={editModal.onOpen}
+                      mb="2"
                     >
-                      Editar
+                      <Icon as={PencilSimpleLine} />
+                    </Button>
+
+                    <Button
+                      as="button"
+                      size="sm"
+                      fontSize="sm"
+                      colorScheme="purple"
+                      alignItems="center"
+                      justifyContent="center"
+                      onClick={deleteModal.onOpen}
+                    >
+                      <Icon as={TrashSimple} />
                     </Button>
                   </Td>
                 ) : null}
@@ -88,6 +119,58 @@ export function UserList() {
           <Pagination />
         </Box>
       </Flex>
+      {/* MODAL EDITING */}
+      <Modal isOpen={editModal.isOpen} onClose={editModal.onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Editar Usuário</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <Input type="text" name="name" label="Nome Completo" />
+            <Input type="text" name="birthday" label="Data de nascimento" />
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3}>
+              Atualizar
+            </Button>
+            <Button
+              onClick={editModal.onClose}
+              variant="outline"
+              colorScheme="blue"
+              _hover={{ backgroundColor: "gray.700" }}
+            >
+              Fechar
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* MODAL DELETING */}
+      <Modal isOpen={deleteModal.isOpen} onClose={deleteModal.onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Excluir Usuário</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <Text>Você está prestes a deletar esse usuário</Text>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3}>
+              Deletar
+            </Button>
+            <Button
+              onClick={deleteModal.onClose}
+              variant="outline"
+              colorScheme="blue"
+              _hover={{ backgroundColor: "gray.700" }}
+            >
+              Fechar
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }

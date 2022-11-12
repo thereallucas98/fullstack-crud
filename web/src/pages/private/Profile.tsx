@@ -8,11 +8,10 @@ import {
   SimpleGrid,
   VStack,
 } from "@chakra-ui/react";
-
 import { Input } from "../../components/Form/Input";
 import { Sidebar } from "../../components/Sidebar";
 
-export function CreateUser() {
+export function Profile() {
   return (
     <Box>
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
@@ -20,27 +19,32 @@ export function CreateUser() {
 
         <Box flex="1" borderRadius={8} bg="gray.800" p={["6", "8"]}>
           <Heading size="lg" fontWeight="normal">
-            Criar usuário
+            Editar usuário
           </Heading>
-
           <Divider my="6" borderColor="gray.700" />
 
           <VStack spacing={["6", "8"]}>
             <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
-              <Input type="text" name="name" label="Nome Completo" />
-            </SimpleGrid>
-
-            <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
-              <Input type="email" name="email" label="Email" />
-              <Input type="text" name="birthday" label="Data de nascimento" />
-            </SimpleGrid>
-
-            <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
-              <Input type="password" name="password" label="Senha" />
               <Input
-                type="passowrd"
-                name="password_confirmation"
-                label="Confirmação da senha"
+                type="text"
+                name="name"
+                label="Nome Completo"
+                placeholder="David Lucas"
+              />
+            </SimpleGrid>
+
+            <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
+              <Input
+                type="email"
+                name="email"
+                label="Email"
+                placeholder="david.lucas@snet.com.br"
+              />
+              <Input
+                type="text"
+                name="birthday"
+                label="Data de nascimento"
+                placeholder="22/06/1998"
               />
             </SimpleGrid>
           </VStack>
@@ -56,7 +60,7 @@ export function CreateUser() {
               >
                 Cancelar
               </Button>
-              <Button colorScheme="blue">Salvar</Button>
+              <Button colorScheme="blue">Atualizar</Button>
             </HStack>
           </Flex>
         </Box>

@@ -1,6 +1,15 @@
 import { extendTheme } from "@chakra-ui/react";
 
 export const theme = extendTheme({
+  components: {
+    Modal: {
+      baseStyle: () => ({
+        dialog: {
+          bg: '#1f2029'
+        }
+      })
+    }
+  },
   colors: {
     gray: {
       "900": "#181b23",
