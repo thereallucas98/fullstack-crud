@@ -26,6 +26,31 @@ usersRouter.post(
 // List all deleted users
 usersRouter.get('/', isAuthenticated, usersController.show);
 
+usersRouter.get(
+  '/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  isAuthenticated,
+  usersController.getUser,
+);
+
+usersRouter.patch(
+  '/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+    [Segments.BODY]: {
+      name: Joi.string().required(),
+    },
+  }),
+  isAuthenticated,
+  usersController.updateUser,
+);
+
 usersRouter.get('/deleted-users', isAuthenticated, usersController.deletedOnes);
 
 usersRouter.patch(

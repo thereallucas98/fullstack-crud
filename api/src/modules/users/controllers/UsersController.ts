@@ -2,10 +2,12 @@ import { Request, Response } from 'express';
 
 import {
   CreateUserService,
+  GetUserService,
   ListAvailableUsersService,
   ListDeletedUsersService,
   RestoreUserService,
   SoftDeleteService,
+  UpdateUserNameService,
 } from '../services';
 
 export default class UsersController {
@@ -67,6 +69,33 @@ export default class UsersController {
     const softDelete = new RestoreUserService();
 
     const users = await softDelete.execute({ user_id: id });
+
+    return response.json(users);
+  }
+
+  public async getUser(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { id } = request.params;
+
+    const getUser = new GetUserService();
+
+    const users = await getUser.execute({ user_id: id });
+
+    return response.json(users);
+  }
+
+  public async updateUser(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { id } = request.params;
+    const { name } = request.body;
+
+    const getUser = new UpdateUserNameService();
+
+    const users = await getUser.execute({ user_id: id, name });
 
     return response.json(users);
   }

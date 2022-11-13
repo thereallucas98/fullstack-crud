@@ -7,10 +7,11 @@ import { UsersRepository } from '../typeorm/repositories/UsersRepository';
 
 interface IRequest {
   user_id: string;
+  name: string;
 }
 
-export default class SoftDeleteService {
-  public async execute({ user_id }: IRequest): Promise<User> {
+export default class UpdateUserNameService {
+  public async execute({ user_id, name }: IRequest): Promise<User> {
     const usersRepository = getCustomRepository(UsersRepository);
 
     const user = await usersRepository.findById(user_id);
@@ -19,9 +20,9 @@ export default class SoftDeleteService {
       throw new AppError('User not Found.');
     }
 
-    // user.is_deleted = true;
+    user.name = name;
 
-    await usersRepository.delete(user);
+    await usersRepository.save(user);
 
     return user;
   }

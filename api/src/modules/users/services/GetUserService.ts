@@ -9,7 +9,7 @@ interface IRequest {
   user_id: string;
 }
 
-export default class SoftDeleteService {
+export default class GetUserService {
   public async execute({ user_id }: IRequest): Promise<User> {
     const usersRepository = getCustomRepository(UsersRepository);
 
@@ -18,10 +18,6 @@ export default class SoftDeleteService {
     if (!user) {
       throw new AppError('User not Found.');
     }
-
-    // user.is_deleted = true;
-
-    await usersRepository.delete(user);
 
     return user;
   }
