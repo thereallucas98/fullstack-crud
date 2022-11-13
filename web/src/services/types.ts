@@ -1,3 +1,3 @@
 export type DataWrapper<T> = {
-  data: T;
-};
+  data: T
+}

@@ -1,40 +1,40 @@
-import { serverApi } from "../api/server.service";
-import { IUser } from "../redux";
+import { serverApi } from '../api/server.service'
+import { IUser } from '../redux'
 
 interface IRequestCreateAccountParams {
-  name: string;
-  email: string;
-  birthday: string;
-  password: string;
+  name: string
+  email: string
+  birthday: string
+  password: string
 }
 
 interface IRequestLoginParams {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
 interface IResponseLogin {
-  user: IUser;
-  token: string;
+  user: IUser
+  token: string
 }
 
 export const authServiceApi = serverApi.injectEndpoints({
   endpoints: (build) => ({
     createAccount: build.mutation<void, IRequestCreateAccountParams>({
       query: (body) => ({
-        url: "/account",
+        url: '/account',
         body,
-        method: "POST",
+        method: 'POST',
       }),
     }),
     login: build.mutation<IResponseLogin, IRequestLoginParams>({
       query: (body) => ({
-        url: "/sessions",
+        url: '/sessions',
         body,
-        method: "POST",
+        method: 'POST',
       }),
     }),
   }),
-});
+})
 
-export const { useCreateAccountMutation, useLoginMutation } = authServiceApi;
+export const { useCreateAccountMutation, useLoginMutation } = authServiceApi

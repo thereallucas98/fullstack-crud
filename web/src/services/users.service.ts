@@ -1,11 +1,11 @@
-import { serverApi } from "../api/server.service";
+import { serverApi } from '../api/server.service'
 
 interface IUser {
-  id: string;
-  name: string;
-  email: string;
-  birthday: string;
-  registry: string;
+  id: string
+  name: string
+  email: string
+  birthday: string
+  registry: string
 }
 
 interface IRequestParams {
@@ -13,42 +13,42 @@ interface IRequestParams {
 }
 
 interface IRequestUserParams {
-  id: string;
+  id: string
 }
 
 interface IRequestUpdateUser {
-  id: string;
-  name: string;
+  id: string
+  name: string
 }
 
 interface IRequestCreateUser {
-  name: string;
-  email: string;
-  birthday: string;
-  password: string;
+  name: string
+  email: string
+  birthday: string
+  password: string
 }
 
 export const usersServiceApi = serverApi.injectEndpoints({
   endpoints: (build) => ({
     getUsers: build.query<IUser[], IRequestParams>({
       query: (params) => ({
-        url: "/users",
+        url: '/users',
         params,
-        method: "GET",
+        method: 'GET',
       }),
-      providesTags: ["Users"],
+      providesTags: ['Users'],
     }),
     createUser: build.mutation<void, IRequestCreateUser>({
       query: (body) => ({
-        url: "/users",
+        url: '/users',
         body,
-        method: "POST",
+        method: 'POST',
       }),
     }),
     deleteUser: build.mutation<void, IRequestUserParams>({
       query: ({ id }) => ({
         url: `/users/soft-delete/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
       }),
     }),
     updateUser: build.mutation<void, IRequestUpdateUser>({
@@ -57,17 +57,17 @@ export const usersServiceApi = serverApi.injectEndpoints({
         body: {
           name,
         },
-        method: "PATCH",
+        method: 'PATCH',
       }),
     }),
     getUser: build.query<IUser, IRequestUserParams>({
       query: ({ id }) => ({
         url: `/users/${id}`,
-        method: "GET",
+        method: 'GET',
       }),
     }),
   }),
-});
+})
 
 export const {
   useGetUserQuery,
@@ -75,4 +75,4 @@ export const {
   useCreateUserMutation,
   useDeleteUserMutation,
   useUpdateUserMutation,
-} = usersServiceApi;
+} = usersServiceApi
