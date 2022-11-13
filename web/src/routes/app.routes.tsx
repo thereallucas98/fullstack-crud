@@ -7,7 +7,7 @@ import { Dashboard } from "../pages/private/Dashboard";
 import { Profile } from "../pages/private/Profile";
 import { UserList } from "../pages/private/UserList";
 
-export function AppRouter() {
+export function AppLogin() {
   return (
     <Routes>
       <Route path="/" element={<DefaultLayout />}>

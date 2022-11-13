@@ -3,7 +3,7 @@ import { NavLink as RRLink } from "react-router-dom";
 
 import { Input } from "../../components/Form/Input";
 
-export function Login() {
+export function CreateAccount() {
   return (
     <Flex w="100vw" h="100vh" alignItems="center" justifyContent="center">
       <Flex
@@ -15,27 +15,26 @@ export function Login() {
         borderRadius={8}
         flexDir="column"
       >
+        <Link
+        as={RRLink}
+        to="/"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        mb="4"
+      >
+        <Text fontWeight="medium">Deseja voltar? Clique aqui</Text>
+      </Link>
         <Stack spacing="4">
+          <Input type="text" name="nome" label="Nome completo" />
           <Input type="email" name="email" label="E-mail" />
+          <Input type="text" name="birthday" label="Data de Nascimento" />
           <Input type="password" name="password" label="Senha" />
         </Stack>
 
         <Button type="submit" mt="6" colorScheme="blue" size="lg">
           Entrar
         </Button>
-
-        <Link
-          as={RRLink}
-          to="/create-account"
-          display="flex"
-          mt="4"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Text fontWeight="medium">
-            Não posusi conta? Clique aqui
-          </Text>
-        </Link>
       </Flex>
     </Flex>
   );
