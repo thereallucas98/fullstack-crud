@@ -21,9 +21,9 @@ export default class AccountController {
   public async delete(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;
 
-    const updateProfile = new DeleteAccountService();
+    const deleteProfile = new DeleteAccountService();
 
-    const user = await updateProfile.execute({
+    const user = await deleteProfile.execute({
       user_id,
     });
 

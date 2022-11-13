@@ -25,9 +25,11 @@ export default class UsersController {
   }
 
   public async show(request: Request, response: Response): Promise<Response> {
+    const { name_search } = request.query;
+
     const showUsers = new ListAvailableUsersService();
 
-    const users = await showUsers.execute();
+    const users = await showUsers.execute({ nameSearch: String(name_search) });
 
     return response.json(users);
   }

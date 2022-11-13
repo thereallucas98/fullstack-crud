@@ -1,13 +1,27 @@
-import { getCustomRepository } from 'typeorm';
+import { getCustomRepository, Like } from 'typeorm';
 
 import { User } from '../typeorm/entities/User';
 import { UsersRepository } from '../typeorm/repositories/UsersRepository';
 
+interface IRequest {
+  nameSearch: string | undefined;
+}
+
 export default class ListAvailableUsersService {
-  public async execute(): Promise<User[]> {
+  public async execute({ nameSearch }: IRequest): Promise<User[]> {
     const usersRepository = getCustomRepository(UsersRepository);
 
-    const users = await usersRepository.find({ where: { is_deleted: false } });
+    if (!nameSearch) {
+      const users = await usersRepository.find({
+        where: { is_deleted: false, name: Like(`%${nameSearch}%`) },
+      });
+
+      return users;
+    }
+
+    const users = await usersRepository.find({
+      where: { is_deleted: false },
+    });
 
     return users;
   }

@@ -29,7 +29,6 @@ accountRouter.patch(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
-      email: Joi.string().required(),
     },
   }),
   isAuthenticated,

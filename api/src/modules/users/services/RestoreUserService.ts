@@ -19,7 +19,7 @@ export default class RestoreUserService {
       throw new AppError('User not Found.');
     }
 
-    user.is_deleted = false;
+    user.is_deleted = !user.is_deleted;
 
     await usersRepository.save(user);
 
