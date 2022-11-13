@@ -11,6 +11,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Skeleton,
   Table,
   Tbody,
   Td,
@@ -23,11 +24,18 @@ import {
 } from "@chakra-ui/react";
 import { Link as RRLink } from "react-router-dom";
 import { PencilSimpleLine, Plus, TrashSimple } from "phosphor-react";
+
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
 import { Input } from "../../components/Form/Input";
 
+import { useGetUsersQuery } from "../../services/users.service";
+
+import { useAppSelector } from "../../redux/store";
+
 export function UserList() {
+  const userLogged = useAppSelector((state) => state.auth.user);
+
   /**
    * Following some discussion in the main documentation: https://github.com/chakra-ui/chakra-ui/discussions/3378
    * it was recommended to use and import useDisclosure and create it owns modal constants
@@ -40,6 +48,10 @@ export function UserList() {
     base: false,
     lg: true,
   });
+
+  const { isFetching, isLoading, data } = useGetUsersQuery();
+
+  const isLoadingData = isLoading || isFetching;
 
   return (
     <Box>
@@ -63,60 +75,70 @@ export function UserList() {
             </Button>
           </Flex>
 
-          <Table colorScheme="whiteAlpha">
-            <Thead>
-              <Tr>
-                <Th px={["4", "4", "6"]} color="gray.300" width="8">
-                  Matricula
-                </Th>
-                <Th>Usuário</Th>
-                {isWideVersion ? <Th>Data de cadastro</Th> : null}
-                {isWideVersion ? <Th width="8"></Th> : null}
-              </Tr>
-            </Thead>
-            <Tbody>
-              <Tr>
-                <Td px={["4", "4", "6"]}>20171380013</Td>
-                <Td>
-                  <Box>
-                    <Text fontWeight="bold">David Lucas</Text>
-                    <Text fontSize="small" color="gray.300">
-                      david.lucas@snet.com.br
-                    </Text>
-                  </Box>
-                </Td>
-                {isWideVersion ? <Td>04 de abril de 2021</Td> : null}
-                {isWideVersion ? (
-                  <Td flexDirection="row">
-                    <Button
-                      as="button"
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="purple"
-                      onClick={editModal.onOpen}
-                      mb="2"
-                    >
-                      <Icon as={PencilSimpleLine} />
-                    </Button>
+          {isLoadingData ? (
+            <Box alignItems="center" justifyContent="center">
+              <Text textAlign="center" fontWeight="bold" fontSize="2xl">
+                Carregando os dados
+              </Text>
+            </Box>
+          ) : (
+            <Table colorScheme="whiteAlpha">
+              <Thead>
+                <Tr>
+                  <Th px={["4", "4", "6"]} color="gray.300" width="8">
+                    Matricula
+                  </Th>
+                  <Th>Usuário</Th>
+                  {isWideVersion ? <Th>Data de cadastro</Th> : null}
+                  {isWideVersion ? <Th width="8"></Th> : null}
+                </Tr>
+              </Thead>
+              <Tbody>
+                {data?.map((user) => (
+                  <Tr key={user.id}>
+                    <Td px={["4", "4", "6"]}>{user.registry}</Td>
+                    <Td>
+                      <Box>
+                        <Text fontWeight="bold">{user.name}</Text>
+                        <Text fontSize="small" color="gray.300">
+                          {user.email}
+                        </Text>
+                      </Box>
+                    </Td>
+                    {isWideVersion ? <Td>{user.birthday}</Td> : null}
+                    {isWideVersion && user.id !== userLogged?.id ? (
+                      <Td flexDirection="row">
+                        <Button
+                          as="button"
+                          size="sm"
+                          fontSize="sm"
+                          colorScheme="purple"
+                          onClick={editModal.onOpen}
+                          mb="2"
+                        >
+                          <Icon as={PencilSimpleLine} />
+                        </Button>
 
-                    <Button
-                      as="button"
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="purple"
-                      alignItems="center"
-                      justifyContent="center"
-                      onClick={deleteModal.onOpen}
-                    >
-                      <Icon as={TrashSimple} />
-                    </Button>
-                  </Td>
-                ) : null}
-              </Tr>
-            </Tbody>
-          </Table>
-
+                        <Button
+                          as="button"
+                          size="sm"
+                          fontSize="sm"
+                          colorScheme="purple"
+                          alignItems="center"
+                          justifyContent="center"
+                          onClick={deleteModal.onOpen}
+                        >
+                          <Icon as={TrashSimple} />
+                        </Button>
+                      </Td>
+                    ) : null}
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          )}
           <Pagination />
+
         </Box>
       </Flex>
       {/* MODAL EDITING */}

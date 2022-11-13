@@ -13,6 +13,8 @@ type AuthState = { user: IUser | null; token: string | null };
 
 type LoginData = { user: IUser; accessToken: string };
 
+type UpdateAccount = { name: string };
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -27,9 +29,14 @@ const authSlice = createSlice({
       state.token = accessToken;
       state.user = user;
     },
+    updateUserProfile: (state, { payload: { name }}: PayloadAction<UpdateAccount>) => {
+      if (state.user) {
+        state.user.name = name;
+      }
+    }
   },
 });
 
-export const { setCredentials } = authSlice.actions;
+export const { setCredentials, updateUserProfile } = authSlice.actions;
 
 export default authSlice.reducer;
