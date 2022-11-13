@@ -8,7 +8,7 @@
 ![Tela de Login](./src/assets/images/login.png)
 
 ## Tela de Listagem de Usuários
-![Tela de Usuários](./src/assets/images/create-account.png)
+![Tela de Usuários](./src/assets/images/users.png)
 
 ## 💻 Tecnologias
 
