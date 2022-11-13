@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { saveState } from '../storage'
 
 export type IUser = {
   id: string
@@ -29,8 +28,6 @@ const authSlice = createSlice({
     ) => {
       state.token = accessToken
       state.user = user
-
-      saveState(state)
     },
     updateUserProfile: (
       state,
@@ -40,9 +37,13 @@ const authSlice = createSlice({
         state.user.name = name
       }
     },
+    logout: (state, { payload: { user, token } }: PayloadAction<AuthState>) => {
+      state.user = user
+      state.token = token
+    },
   },
 })
 
-export const { setCredentials, updateUserProfile } = authSlice.actions
+export const { setCredentials, updateUserProfile, logout } = authSlice.actions
 
 export default authSlice.reducer
