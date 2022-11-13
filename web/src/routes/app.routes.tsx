@@ -1,11 +1,11 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from 'react-router-dom'
 
-import { DefaultLayout } from "../layouts";
+import { DefaultLayout } from '../layouts'
 
-import { CreateUser } from "../pages/private/CreateUser";
-import { Dashboard } from "../pages/private/Dashboard";
-import { Profile } from "../pages/private/Profile";
-import { UserList } from "../pages/private/UserList";
+import { CreateUser } from '../pages/private/CreateUser'
+import { Dashboard } from '../pages/private/Dashboard'
+import { Profile } from '../pages/private/Profile'
+import { UserList } from '../pages/private/UserList'
 
 export function AppRoutes() {
   return (
@@ -17,5 +17,5 @@ export function AppRoutes() {
         <Route path="/profile" element={<Profile />} />
       </Route>
     </Routes>
-  );
+  )
 }
