@@ -1,12 +1,12 @@
-import { ChakraProvider } from "@chakra-ui/react";
-import { BrowserRouter } from "react-router-dom";
-import { SidebarDrawerProvider } from "./contexts/SidebarDrawerContext";
-import { Provider as ReduxProvider } from "react-redux";
+import { ChakraProvider } from '@chakra-ui/react'
+import { BrowserRouter } from 'react-router-dom'
+import { SidebarDrawerProvider } from './contexts/SidebarDrawerContext'
+import { Provider as ReduxProvider } from 'react-redux'
 
-import store from "./redux/store";
-import { Routes } from "./routes";
-import { theme } from "./styles/theme";
-import { HeaderProvider } from "./contexts/HeaderContext";
+import store from './redux/store'
+import { Routes } from './routes'
+import { theme } from './styles/theme'
+import { HeaderProvider } from './contexts/HeaderContext'
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
         </HeaderProvider>
       </ChakraProvider>
     </ReduxProvider>
-  );
+  )
 }
 
-export default App;
+export default App
