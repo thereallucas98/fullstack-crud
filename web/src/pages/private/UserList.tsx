@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from 'react'
 import {
   Box,
   Button,
@@ -21,46 +21,46 @@ import {
   Tr,
   useBreakpointValue,
   useDisclosure,
-} from "@chakra-ui/react";
-import { Link as RRLink } from "react-router-dom";
-import { PencilSimpleLine, Plus, TrashSimple } from "phosphor-react";
+} from '@chakra-ui/react'
+import { Link as RRLink } from 'react-router-dom'
+import { PencilSimpleLine, Plus, TrashSimple } from 'phosphor-react'
 
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from 'react-hook-form'
 
-import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
-import { Pagination } from "../../components/Pagination";
-import { Sidebar } from "../../components/Sidebar";
-import { Input } from "../../components/Form/Input";
+import { Pagination } from '../../components/Pagination'
+import { Sidebar } from '../../components/Sidebar'
+import { Input } from '../../components/Form/Input'
 
 import {
   useDeleteUserMutation,
   useGetUserQuery,
   useUpdateUserMutation,
-} from "../../services/users.service";
+} from '../../services/users.service'
 
-import { useHeader } from "../../contexts/HeaderContext";
-import { useGetUserList } from "../../hooks/useGetUserList";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { serverApi } from "../../api/server.service";
+import { useHeader } from '../../contexts/HeaderContext'
+import { useGetUserList } from '../../hooks/useGetUserList'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
+import { serverApi } from '../../api/server.service'
 
 type UpdateFormData = {
-  name: string;
-};
+  name: string
+}
 
 const schema = Yup.object().shape({
-  name: Yup.string().required("Campo obrigatório"),
-});
+  name: Yup.string().required('Campo obrigatório'),
+})
 
 export function UserList() {
-  const userLogged = useAppSelector((state) => state.auth.user);
-  const dispatch = useAppDispatch();
+  const userLogged = useAppSelector((state) => state.auth.user)
+  const dispatch = useAppDispatch()
 
-  const [idSelectedToDelete, setIdSelectedToDelete] = useState("");
-  const [idSelectedToEdit, setIdSelectedToEdit] = useState("");
+  const [idSelectedToDelete, setIdSelectedToDelete] = useState('')
+  const [idSelectedToEdit, setIdSelectedToEdit] = useState('')
 
-  const { value } = useHeader();
+  const { value } = useHeader()
 
   /**
    * Update Form
@@ -73,29 +73,29 @@ export function UserList() {
     formState: { errors, isValid },
   } = useForm<UpdateFormData>({
     resolver: yupResolver(schema),
-    mode: "onChange",
-  });
+    mode: 'onChange',
+  })
 
   /**
    * Following some discussion in the main documentation: https://github.com/chakra-ui/chakra-ui/discussions/3378
    * it was recommended to use and import useDisclosure and create it owns modal constants
    * but I rather to change in the future to use contexts.
    */
-  const editModal = useDisclosure();
-  const deleteModal = useDisclosure();
+  const editModal = useDisclosure()
+  const deleteModal = useDisclosure()
 
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true,
-  });
+  })
 
-  const { users, loadingUsers } = useGetUserList({ q: value });
+  const { users, loadingUsers } = useGetUserList({ q: value })
 
   const {
     data: userData,
     isFetching: isFetchingUser,
     isLoading: isLoadingUser,
-  } = useGetUserQuery({ id: idSelectedToEdit });
+  } = useGetUserQuery({ id: idSelectedToEdit })
 
   /**
    * Edit User Wrapper
@@ -104,25 +104,28 @@ export function UserList() {
   const [
     updateUser,
     { isSuccess: isUpdateUserSuccess, isLoading: isUpdateUserLoading },
-  ] = useUpdateUserMutation();
+  ] = useUpdateUserMutation()
 
-  const handleOpenModalToEditUser = useCallback((id: string) => {
-    setIdSelectedToEdit(id);
-    editModal.onOpen();
-  }, []);
+  const handleOpenModalToEditUser = useCallback(
+    (id: string) => {
+      setIdSelectedToEdit(id)
+      editModal.onOpen()
+    },
+    [editModal],
+  )
 
   const handleUpdateUser: SubmitHandler<UpdateFormData> = async (values) => {
-    updateUser({ id: idSelectedToEdit, name: values.name });
-  };
+    updateUser({ id: idSelectedToEdit, name: values.name })
+  }
 
   useEffect(() => {
     if (isUpdateUserSuccess) {
-      dispatch(serverApi.util.invalidateTags(["Users"]));
-      editModal.onClose();
-      window.alert("Usuário atualizado");
-      setIdSelectedToEdit("");
+      dispatch(serverApi.util.invalidateTags(['Users']))
+      editModal.onClose()
+      window.alert('Usuário atualizado')
+      setIdSelectedToEdit('')
     }
-  }, [isUpdateUserSuccess]);
+  }, [isUpdateUserSuccess, dispatch, editModal])
 
   /**
    * Delete User Wrapepr
@@ -130,35 +133,38 @@ export function UserList() {
   const [
     deleteUser,
     { isSuccess: isDeleteUserSuccess, isLoading: isDeleteUserLoading },
-  ] = useDeleteUserMutation();
+  ] = useDeleteUserMutation()
 
-  const handleOpenModalToDeleteUser = useCallback((id: string) => {
-    setIdSelectedToDelete(id);
+  const handleOpenModalToDeleteUser = useCallback(
+    (id: string) => {
+      setIdSelectedToDelete(id)
 
-    if (!isFetchingUser || !isLoadingUser) {
-      deleteModal.onOpen();
-    }
-  }, []);
+      if (!isFetchingUser || !isLoadingUser) {
+        deleteModal.onOpen()
+      }
+    },
+    [deleteModal, isFetchingUser, isLoadingUser],
+  )
 
   const handleDeleteUserById = useCallback(() => {
-    deleteUser({ id: idSelectedToDelete });
-  }, []);
+    deleteUser({ id: idSelectedToDelete })
+  }, [deleteUser, idSelectedToDelete])
 
   useEffect(() => {
     if (isDeleteUserSuccess) {
-      dispatch(serverApi.util.invalidateTags(["Users"]));
-      deleteModal.onClose();
-      window.alert("Usuário deletado!");
-      setIdSelectedToDelete("");
+      dispatch(serverApi.util.invalidateTags(['Users']))
+      deleteModal.onClose()
+      window.alert('Usuário deletado!')
+      setIdSelectedToDelete('')
     }
-  }, [isDeleteUserSuccess]);
+  }, [isDeleteUserSuccess, deleteModal, dispatch])
 
   /**
    * First rendering
    */
   useEffect(() => {
-    dispatch(serverApi.util.invalidateTags(["Users"]));
-  }, []);
+    dispatch(serverApi.util.invalidateTags(['Users']))
+  }, [dispatch])
 
   return (
     <Box>
@@ -192,7 +198,7 @@ export function UserList() {
             <Table colorScheme="whiteAlpha">
               <Thead>
                 <Tr>
-                  <Th px={["4", "4", "6"]} color="gray.300" width="8">
+                  <Th px={['4', '4', '6']} color="gray.300" width="8">
                     Matricula
                   </Th>
                   <Th>Usuário</Th>
@@ -203,7 +209,7 @@ export function UserList() {
               <Tbody>
                 {users?.map((user) => (
                   <Tr key={user.id}>
-                    <Td px={["4", "4", "6"]}>{user.registry}</Td>
+                    <Td px={['4', '4', '6']}>{user.registry}</Td>
                     <Td>
                       <Box>
                         <Text fontWeight="bold">{user.name}</Text>
@@ -260,7 +266,7 @@ export function UserList() {
               type="text"
               label="Nome Completo"
               placeholder={userData?.name}
-              {...register("name")}
+              {...register('name')}
               error={errors.name}
             />
           </ModalBody>
@@ -270,7 +276,7 @@ export function UserList() {
               onClick={editModal.onClose}
               variant="outline"
               colorScheme="blue"
-              _hover={{ backgroundColor: "gray.700" }}
+              _hover={{ backgroundColor: 'gray.700' }}
               mr={3}
             >
               Fechar
@@ -303,7 +309,7 @@ export function UserList() {
               onClick={deleteModal.onClose}
               variant="outline"
               colorScheme="blue"
-              _hover={{ backgroundColor: "gray.700" }}
+              _hover={{ backgroundColor: 'gray.700' }}
             >
               Fechar
             </Button>
@@ -314,5 +320,5 @@ export function UserList() {
         </ModalContent>
       </Modal>
     </Box>
-  );
+  )
 }

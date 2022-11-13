@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect } from 'react'
 import {
   Box,
   Button,
@@ -8,31 +8,31 @@ import {
   HStack,
   SimpleGrid,
   VStack,
-} from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { SubmitHandler, useForm } from "react-hook-form";
+} from '@chakra-ui/react'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
-import * as Yup from "yup";
+import * as Yup from 'yup'
 
-import { Input } from "../../components/Form/Input";
-import { Sidebar } from "../../components/Sidebar";
+import { Input } from '../../components/Form/Input'
+import { Sidebar } from '../../components/Sidebar'
 
-import { updateUserProfile } from "../../redux";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { updateUserProfile } from '../../redux'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
 
-import { useUpdateAccountMutation } from "../../services/account.service";
+import { useUpdateAccountMutation } from '../../services/account.service'
 
 type AccountFormData = {
-  name: string;
-};
+  name: string
+}
 
 const schema = Yup.object().shape({
-  name: Yup.string().required("Campo obrigatório"),
-});
+  name: Yup.string().required('Campo obrigatório'),
+})
 
 export function Profile() {
-  const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.auth.user);
+  const dispatch = useAppDispatch()
+  const user = useAppSelector((state) => state.auth.user)
 
   const {
     register,
@@ -40,23 +40,23 @@ export function Profile() {
     formState: { errors, isValid },
   } = useForm<AccountFormData>({
     resolver: yupResolver(schema),
-    mode: "onSubmit",
-  });
+    mode: 'onSubmit',
+  })
 
   const [updateAccount, { data, isLoading, isSuccess }] =
-    useUpdateAccountMutation();
+    useUpdateAccountMutation()
 
   const handleUpdateAccount: SubmitHandler<AccountFormData> = async (
-    values
+    values,
   ) => {
-    updateAccount(values);
-  };
+    updateAccount(values)
+  }
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(updateUserProfile({ name: data?.name! }));
+      dispatch(updateUserProfile({ name: data?.name! }))
     }
-  }, [isSuccess, dispatch]);
+  }, [isSuccess, dispatch, data?.name])
 
   return (
     <Box>
@@ -67,7 +67,7 @@ export function Profile() {
           flex="1"
           borderRadius={8}
           bg="gray.800"
-          p={["6", "8"]}
+          p={['6', '8']}
           as="form"
           onSubmit={handleSubmit(handleUpdateAccount)}
         >
@@ -76,18 +76,18 @@ export function Profile() {
           </Heading>
           <Divider my="6" borderColor="gray.700" />
 
-          <VStack spacing={["6", "8"]}>
-            <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
+          <VStack spacing={['6', '8']}>
+            <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
               <Input
                 type="text"
                 label="Nome Completo"
-                {...register("name")}
+                {...register('name')}
                 error={errors.name}
                 placeholder={user?.name}
               />
             </SimpleGrid>
 
-            <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
+            <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
               <Input
                 type="email"
                 name="email"
@@ -111,8 +111,8 @@ export function Profile() {
                 variant="outline"
                 colorScheme="blue"
                 _hover={{
-                  backgroundColor: "blue.900",
-                  textColor: "white",
+                  backgroundColor: 'blue.900',
+                  textColor: 'white',
                 }}
               >
                 Cancelar
@@ -130,5 +130,5 @@ export function Profile() {
         </Box>
       </Flex>
     </Box>
-  );
+  )
 }

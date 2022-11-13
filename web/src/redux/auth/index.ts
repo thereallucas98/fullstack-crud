@@ -1,22 +1,22 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export type IUser = {
-  id: string;
-  name: string;
-  email: string;
-  registry: string;
-  birthday: string;
-  is_deleted: boolean;
-};
+  id: string
+  name: string
+  email: string
+  registry: string
+  birthday: string
+  is_deleted: boolean
+}
 
-type AuthState = { user: IUser | null; token: string | null };
+type AuthState = { user: IUser | null; token: string | null }
 
-type LoginData = { user: IUser; accessToken: string };
+type LoginData = { user: IUser; accessToken: string }
 
-type UpdateAccount = { name: string };
+type UpdateAccount = { name: string }
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState: {
     user: null,
     token: null,
@@ -24,19 +24,22 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (
       state,
-      { payload: { user, accessToken } }: PayloadAction<LoginData>
+      { payload: { user, accessToken } }: PayloadAction<LoginData>,
     ) => {
-      state.token = accessToken;
-      state.user = user;
+      state.token = accessToken
+      state.user = user
     },
-    updateUserProfile: (state, { payload: { name }}: PayloadAction<UpdateAccount>) => {
+    updateUserProfile: (
+      state,
+      { payload: { name } }: PayloadAction<UpdateAccount>,
+    ) => {
       if (state.user) {
-        state.user.name = name;
+        state.user.name = name
       }
-    }
+    },
   },
-});
+})
 
-export const { setCredentials, updateUserProfile } = authSlice.actions;
+export const { setCredentials, updateUserProfile } = authSlice.actions
 
-export default authSlice.reducer;
+export default authSlice.reducer

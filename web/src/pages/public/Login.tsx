@@ -1,30 +1,30 @@
-import { Button, Flex, Link, Stack, Text } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { NavLink as RRLink } from "react-router-dom";
+import { Button, Flex, Link, Stack, Text } from '@chakra-ui/react'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useEffect } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { NavLink as RRLink } from 'react-router-dom'
 
-import * as Yup from "yup";
+import * as Yup from 'yup'
 
-import { Input } from "../../components/Form/Input";
-import { setCredentials } from "../../redux";
-import { useAppDispatch } from "../../redux/store";
-import { useLoginMutation } from "../../services/auth.service";
+import { Input } from '../../components/Form/Input'
+import { setCredentials } from '../../redux'
+import { useAppDispatch } from '../../redux/store'
+import { useLoginMutation } from '../../services/auth.service'
 
 type LoginFormData = {
-  email: string;
-  password: string;
-};
+  email: string
+  password: string
+}
 
 const schema = Yup.object().shape({
   email: Yup.string()
-    .email("Informe um e-mail válido")
-    .required("Campo obrigatório"),
-  password: Yup.string().required("Campo obrigatório"),
-});
+    .email('Informe um e-mail válido')
+    .required('Campo obrigatório'),
+  password: Yup.string().required('Campo obrigatório'),
+})
 
 export function Login() {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   const {
     register,
@@ -32,22 +32,22 @@ export function Login() {
     formState: { errors, isValid },
   } = useForm<LoginFormData>({
     resolver: yupResolver(schema),
-    mode: "onChange",
-  });
+    mode: 'onChange',
+  })
 
-  const [signIn, { isSuccess, isLoading, data }] = useLoginMutation();
+  const [signIn, { isSuccess, isLoading, data }] = useLoginMutation()
 
   const handleSignIn: SubmitHandler<LoginFormData> = async (values) => {
-    signIn(values);
-  };
+    signIn(values)
+  }
 
   useEffect(() => {
     if (isSuccess) {
       if (data?.user && data?.token) {
-        dispatch(setCredentials({ user: data.user, accessToken: data.token }));
+        dispatch(setCredentials({ user: data.user, accessToken: data.token }))
       }
     }
-  }, [isSuccess]);
+  }, [isSuccess, data?.token, data?.user, dispatch])
 
   return (
     <Flex w="100vw" h="100vh" alignItems="center" justifyContent="center">
@@ -66,14 +66,14 @@ export function Login() {
             type="email"
             label="E-mail"
             placeholder="tony.stark@marvel.com.br"
-            {...register("email")}
+            {...register('email')}
             error={errors.email}
           />
           <Input
             type="password"
             label="Senha"
             placeholder="***********************"
-            {...register("password")}
+            {...register('password')}
             error={errors.password}
           />
         </Stack>
@@ -101,5 +101,5 @@ export function Login() {
         </Link>
       </Flex>
     </Flex>
-  );
+  )
 }

@@ -12,37 +12,37 @@ import {
   Stack,
   Text,
   useDisclosure,
-} from "@chakra-ui/react";
-import { NavLink as RRLink } from "react-router-dom";
-import { useForm, SubmitHandler } from "react-hook-form";
+} from '@chakra-ui/react'
+import { NavLink as RRLink } from 'react-router-dom'
+import { useForm, SubmitHandler } from 'react-hook-form'
 
-import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
-import { Input } from "../../components/Form/Input";
-import { useCreateAccountMutation } from "../../services/auth.service";
-import { useEffect } from "react";
+import { Input } from '../../components/Form/Input'
+import { useCreateAccountMutation } from '../../services/auth.service'
+import { useEffect } from 'react'
 
 type CreateAccountFormData = {
-  name: string;
-  email: string;
-  birthday: string;
-  password: string;
-};
+  name: string
+  email: string
+  birthday: string
+  password: string
+}
 
 const schema = Yup.object().shape({
-  name: Yup.string().required("Campo obrigatório"),
+  name: Yup.string().required('Campo obrigatório'),
   email: Yup.string()
-    .email("Informe um e-mail válido")
-    .required("Campo obrigatório"),
+    .email('Informe um e-mail válido')
+    .required('Campo obrigatório'),
   birthday: Yup.string()
-    .matches(/^(\d{2})\/(\d{2})\/(\d{4})$/, "Formato inválido")
-    .required("Campo obrigatório"),
-  password: Yup.string().required("Campo obrigatório"),
-});
+    .matches(/^(\d{2})\/(\d{2})\/(\d{4})$/, 'Formato inválido')
+    .required('Campo obrigatório'),
+  password: Yup.string().required('Campo obrigatório'),
+})
 
 export function CreateAccount() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const {
     register,
@@ -50,22 +50,22 @@ export function CreateAccount() {
     formState: { errors, isValid },
   } = useForm<CreateAccountFormData>({
     resolver: yupResolver(schema),
-    mode: "onChange",
-  });
+    mode: 'onChange',
+  })
 
-  const [createUser, { isSuccess, isLoading }] = useCreateAccountMutation();
+  const [createUser, { isSuccess, isLoading }] = useCreateAccountMutation()
 
   const handleCreateAccount: SubmitHandler<CreateAccountFormData> = async (
-    values
+    values,
   ) => {
-    createUser(values);
-  };
+    createUser(values)
+  }
 
   useEffect(() => {
-    if (isSuccess) {      
-      onOpen();
+    if (isSuccess) {
+      onOpen()
     }
-  }, [isSuccess, onOpen]);
+  }, [isSuccess, onOpen])
 
   return (
     <Flex w="100vw" h="100vh" alignItems="center" justifyContent="center">
@@ -94,14 +94,14 @@ export function CreateAccount() {
             type="text"
             label="Nome completo"
             placeholder="Tony Stark"
-            {...register("name")}
+            {...register('name')}
             error={errors.name}
           />
           <Input
             type="email"
             label="E-mail"
             placeholder="tony.stark@marvel.com.br"
-            {...register("email")}
+            {...register('email')}
             error={errors.email}
           />
           <Input
@@ -111,13 +111,13 @@ export function CreateAccount() {
             error={errors.birthday}
             maxLength={10}
             mask="date"
-            {...register("birthday")}
+            {...register('birthday')}
           />
           <Input
             type="password"
             label="Senha"
             placeholder="***********************"
-            {...register("password")}
+            {...register('password')}
             error={errors.password}
           />
         </Stack>
@@ -162,5 +162,5 @@ export function CreateAccount() {
         </ModalContent>
       </Modal>
     </Flex>
-  );
+  )
 }
