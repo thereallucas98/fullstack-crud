@@ -27,25 +27,25 @@ import {
   useCallback,
   useContext,
   useState,
-} from "react";
+} from 'react'
 
 interface HeaderContextData {
-  value: string | undefined;
-  changeValue: (value: string) => void;
+  value: string | undefined
+  changeValue: (value: string) => void
 }
 
 interface HeaderProviderProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
-const HeaderContext = createContext<HeaderContextData>({} as HeaderContextData);
+const HeaderContext = createContext<HeaderContextData>({} as HeaderContextData)
 
 export function HeaderProvider({ children }: HeaderProviderProps) {
-  const [valueToSearch, setValueToSearch] = useState<string | undefined>("");
+  const [valueToSearch, setValueToSearch] = useState<string | undefined>('')
 
   const handelChangeValue = useCallback((value: string) => {
-    setValueToSearch(value);
-  }, []);
+    setValueToSearch(value)
+  }, [])
 
   return (
     <HeaderContext.Provider
@@ -53,7 +53,7 @@ export function HeaderProvider({ children }: HeaderProviderProps) {
     >
       {children}
     </HeaderContext.Provider>
-  );
+  )
 }
 
-export const useHeader = () => useContext(HeaderContext);
+export const useHeader = () => useContext(HeaderContext)

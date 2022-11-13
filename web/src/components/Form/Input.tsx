@@ -27,11 +27,14 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   { name, label, error = null, mask, ...rest },
   ref,
 ) => {
-  const handleKeyUp = useCallback((e: FormEvent<HTMLInputElement>) => {
-    if (mask && mask === 'date') {
-      dateFormat(e)
-    }
-  }, [])
+  const handleKeyUp = useCallback(
+    (e: FormEvent<HTMLInputElement>) => {
+      if (mask && mask === 'date') {
+        dateFormat(e)
+      }
+    },
+    [mask],
+  )
 
   return (
     <FormControl isInvalid={!!error}>
