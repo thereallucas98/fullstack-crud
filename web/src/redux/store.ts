@@ -1,5 +1,7 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { AnyAction, combineReducers, configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { PersistConfig, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 import { serverApi } from '../api/server.service'
 
 import authReducer from './auth'
@@ -9,10 +11,29 @@ const reducer = combineReducers({
   [serverApi.reducerPath]: serverApi.reducer,
 })
 
+const rootReducer = (
+  state: ReturnType<typeof reducer> | undefined,
+  action: AnyAction,
+) => {
+  if (action.type === 'LOGOUT') {
+    return reducer(undefined, action)
+  }
+  return reducer(state, action)
+}
+
+const persistConfig: PersistConfig<ReturnType<typeof rootReducer>> = {
+  key: 'root',
+  storage,
+  timeout: 0,
+  whitelist: ['auth'],
+}
+
 const customMiddleware = [serverApi.middleware]
 
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
 const store = configureStore({
-  reducer,
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(customMiddleware),
 })

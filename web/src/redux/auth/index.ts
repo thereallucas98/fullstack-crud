@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { saveState } from '../storage'
 
 export type IUser = {
   id: string
@@ -9,9 +10,9 @@ export type IUser = {
   is_deleted: boolean
 }
 
-type AuthState = { user: IUser | null; token: string | null }
+export type AuthState = { user: IUser | null; token: string | null }
 
-type LoginData = { user: IUser; accessToken: string }
+export type LoginData = { user: IUser; accessToken: string }
 
 type UpdateAccount = { name: string }
 
@@ -28,6 +29,8 @@ const authSlice = createSlice({
     ) => {
       state.token = accessToken
       state.user = user
+
+      saveState(state)
     },
     updateUserProfile: (
       state,
