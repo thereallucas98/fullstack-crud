@@ -138,7 +138,7 @@ export function CreateAccount() {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Excluir Usuário</ModalHeader>
+          <ModalHeader>Conta criada com sucesso</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <Text>

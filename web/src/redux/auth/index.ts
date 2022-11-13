@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type IUser = {
+export type IUser = {
   id: string;
   name: string;
   email: string;
   registry: string;
+  birthday: string;
   is_deleted: boolean;
 };
 

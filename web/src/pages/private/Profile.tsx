@@ -10,8 +10,11 @@ import {
 } from "@chakra-ui/react";
 import { Input } from "../../components/Form/Input";
 import { Sidebar } from "../../components/Sidebar";
+import { useAppSelector } from "../../redux/store";
 
 export function Profile() {
+  const user = useAppSelector((state) => state.auth.user);
+
   return (
     <Box>
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
@@ -29,7 +32,7 @@ export function Profile() {
                 type="text"
                 name="name"
                 label="Nome Completo"
-                placeholder="David Lucas"
+                placeholder={user?.name}
               />
             </SimpleGrid>
 
@@ -38,13 +41,13 @@ export function Profile() {
                 type="email"
                 name="email"
                 label="Email"
-                placeholder="david.lucas@snet.com.br"
+                placeholder={user?.email}
               />
               <Input
                 type="text"
                 name="birthday"
                 label="Data de nascimento"
-                placeholder="22/06/1998"
+                placeholder={user?.birthday}
               />
             </SimpleGrid>
           </VStack>
@@ -56,6 +59,7 @@ export function Profile() {
                 colorScheme="blue"
                 _hover={{
                   backgroundColor: "blue.900",
+                  textColor: 'white'
                 }}
               >
                 Cancelar
