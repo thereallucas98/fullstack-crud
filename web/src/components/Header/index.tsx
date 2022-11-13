@@ -1,19 +1,19 @@
-import { Flex, Icon, IconButton, useBreakpointValue } from "@chakra-ui/react";
-import { List } from "phosphor-react";
+import { Flex, Icon, IconButton, useBreakpointValue } from '@chakra-ui/react'
+import { List } from 'phosphor-react'
 
-import { useSidebarDrawer } from "../../contexts/SidebarDrawerContext";
+import { useSidebarDrawer } from '../../contexts/SidebarDrawerContext'
 
-import { Logo } from "./Logo";
-import { Profile } from "./Profile";
-import { SearchBox } from "./SearchBox";
+import { Logo } from './Logo'
+import { Profile } from './Profile'
+import { SearchBox } from './SearchBox'
 
 export function Header() {
-  const { onOpen } = useSidebarDrawer();
+  const { onOpen } = useSidebarDrawer()
 
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true,
-  });
+  })
 
   return (
     <Flex
@@ -42,5 +42,5 @@ export function Header() {
 
       <Profile showProfileData={isWideVersion} />
     </Flex>
-  );
+  )
 }

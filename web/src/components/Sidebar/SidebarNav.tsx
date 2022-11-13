@@ -1,8 +1,8 @@
-import { Stack } from "@chakra-ui/react";
-import { House, User, Users } from "phosphor-react";
+import { Stack } from '@chakra-ui/react'
+import { House, User, Users } from 'phosphor-react'
 
-import { NavLink } from "./NavLink";
-import { NavSection } from "./NavSection";
+import { NavLink } from './NavLink'
+import { NavSection } from './NavSection'
 
 export function SidebarNav() {
   return (
@@ -22,5 +22,5 @@ export function SidebarNav() {
         </NavLink>
       </NavSection>
     </Stack>
-  );
+  )
 }

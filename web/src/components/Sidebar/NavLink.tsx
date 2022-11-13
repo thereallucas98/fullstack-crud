@@ -1,22 +1,22 @@
-import { Icon, Link, LinkProps, Text } from "@chakra-ui/react";
-import { NavLink as RRLink } from "react-router-dom";
-import { ElementType } from "react";
+import { Icon, Link, LinkProps, Text } from '@chakra-ui/react'
+import { NavLink as RRLink } from 'react-router-dom'
+import { ElementType } from 'react'
 
 interface NavLinkProps extends LinkProps {
-  icon: ElementType;
-  children: string;
-  hrefString: string;
+  icon: ElementType
+  children: string
+  hrefString: string
 }
 
 export function NavLink({ icon, children, hrefString, ...rest }: NavLinkProps) {
-  const isActive = true;
+  const isActive = true
 
   return (
     <Link
       as={RRLink}
       to={hrefString}
       _activeLink={{
-        color: "blue.900",
+        color: 'blue.900',
       }}
       display="flex"
       alignItems="center"
@@ -27,5 +27,5 @@ export function NavLink({ icon, children, hrefString, ...rest }: NavLinkProps) {
         {children}
       </Text>
     </Link>
-  );
+  )
 }

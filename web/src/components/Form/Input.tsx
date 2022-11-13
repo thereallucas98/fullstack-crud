@@ -3,9 +3,9 @@ import {
   forwardRef,
   ForwardRefRenderFunction,
   useCallback,
-} from "react";
+} from 'react'
 
-import { FieldError } from "react-hook-form";
+import { FieldError } from 'react-hook-form'
 
 import {
   Input as ChakraInput,
@@ -13,25 +13,25 @@ import {
   FormControl,
   InputProps as ChakraInputProps,
   FormErrorMessage,
-} from "@chakra-ui/react";
-import { dateFormat } from "./mask";
+} from '@chakra-ui/react'
+import { dateFormat } from './mask'
 
 interface InputProps extends ChakraInputProps {
-  mask?: "date";
-  name: string;
-  label?: string;
-  error?: FieldError;
+  mask?: 'date'
+  name: string
+  label?: string
+  error?: FieldError
 }
 
 const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   { name, label, error = null, mask, ...rest },
-  ref
+  ref,
 ) => {
   const handleKeyUp = useCallback((e: FormEvent<HTMLInputElement>) => {
-    if (mask && mask === "date") {
-      dateFormat(e);
+    if (mask && mask === 'date') {
+      dateFormat(e)
     }
-  }, []);
+  }, [])
 
   return (
     <FormControl isInvalid={!!error}>
@@ -43,7 +43,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
         bgColor="gray.900"
         variant="filled"
         _hover={{
-          bgColor: "gray.900",
+          bgColor: 'gray.900',
         }}
         size="lg"
         ref={ref}
@@ -53,7 +53,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
 
       {!!error && <FormErrorMessage>{error.message}</FormErrorMessage>}
     </FormControl>
-  );
-};
+  )
+}
 
-export const Input = forwardRef(InputBase);
+export const Input = forwardRef(InputBase)

@@ -1,10 +1,10 @@
-import { Flex, Icon, Input } from "@chakra-ui/react";
-import { MagnifyingGlass } from "phosphor-react";
+import { Flex, Icon, Input } from '@chakra-ui/react'
+import { MagnifyingGlass } from 'phosphor-react'
 
-import { useHeader } from "../../contexts/HeaderContext";
+import { useHeader } from '../../contexts/HeaderContext'
 
 export function SearchBox() {
-  const { changeValue } = useHeader();
+  const { changeValue } = useHeader()
 
   return (
     <Flex
@@ -27,11 +27,11 @@ export function SearchBox() {
         mr="4"
         placeholder="Buscar na plataforma por um usuário"
         _placeholder={{
-          color: "gray.400",
+          color: 'gray.400',
         }}
         onChange={(e) => changeValue(e.target.value)}
       />
       <Icon as={MagnifyingGlass} fontSize="24" />
     </Flex>
-  );
+  )
 }
