@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -11,7 +12,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Skeleton,
   Table,
   Tbody,
   Td,
@@ -25,16 +25,56 @@ import {
 import { Link as RRLink } from "react-router-dom";
 import { PencilSimpleLine, Plus, TrashSimple } from "phosphor-react";
 
+import { SubmitHandler, useForm } from "react-hook-form";
+
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
 import { Input } from "../../components/Form/Input";
 
-import { useGetUsersQuery } from "../../services/users.service";
+import {
+  useDeleteUserMutation,
+  useGetUserQuery,
+  useUpdateUserMutation,
+} from "../../services/users.service";
 
-import { useAppSelector } from "../../redux/store";
+import { useHeader } from "../../contexts/HeaderContext";
+import { useGetUserList } from "../../hooks/useGetUserList";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { serverApi } from "../../api/server.service";
+
+type UpdateFormData = {
+  name: string;
+};
+
+const schema = Yup.object().shape({
+  name: Yup.string().required("Campo obrigatório"),
+});
 
 export function UserList() {
   const userLogged = useAppSelector((state) => state.auth.user);
+  const dispatch = useAppDispatch();
+
+  const [idSelectedToDelete, setIdSelectedToDelete] = useState("");
+  const [idSelectedToEdit, setIdSelectedToEdit] = useState("");
+
+  const { value } = useHeader();
+
+  /**
+   * Update Form
+   */
+
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors, isValid },
+  } = useForm<UpdateFormData>({
+    resolver: yupResolver(schema),
+    mode: "onChange",
+  });
 
   /**
    * Following some discussion in the main documentation: https://github.com/chakra-ui/chakra-ui/discussions/3378
@@ -49,9 +89,76 @@ export function UserList() {
     lg: true,
   });
 
-  const { isFetching, isLoading, data } = useGetUsersQuery();
+  const { users, loadingUsers } = useGetUserList({ q: value });
 
-  const isLoadingData = isLoading || isFetching;
+  const {
+    data: userData,
+    isFetching: isFetchingUser,
+    isLoading: isLoadingUser,
+  } = useGetUserQuery({ id: idSelectedToEdit });
+
+  /**
+   * Edit User Wrapper
+   */
+
+  const [
+    updateUser,
+    { isSuccess: isUpdateUserSuccess, isLoading: isUpdateUserLoading },
+  ] = useUpdateUserMutation();
+
+  const handleOpenModalToEditUser = useCallback((id: string) => {
+    setIdSelectedToEdit(id);
+    editModal.onOpen();
+  }, []);
+
+  const handleUpdateUser: SubmitHandler<UpdateFormData> = async (values) => {
+    updateUser({ id: idSelectedToEdit, name: values.name });
+  };
+
+  useEffect(() => {
+    if (isUpdateUserSuccess) {
+      dispatch(serverApi.util.invalidateTags(["Users"]));
+      editModal.onClose();
+      window.alert("Usuário atualizado");
+      setIdSelectedToEdit("");
+    }
+  }, [isUpdateUserSuccess]);
+
+  /**
+   * Delete User Wrapepr
+   */
+  const [
+    deleteUser,
+    { isSuccess: isDeleteUserSuccess, isLoading: isDeleteUserLoading },
+  ] = useDeleteUserMutation();
+
+  const handleOpenModalToDeleteUser = useCallback((id: string) => {
+    setIdSelectedToDelete(id);
+
+    if (!isFetchingUser || !isLoadingUser) {
+      deleteModal.onOpen();
+    }
+  }, []);
+
+  const handleDeleteUserById = useCallback(() => {
+    deleteUser({ id: idSelectedToDelete });
+  }, []);
+
+  useEffect(() => {
+    if (isDeleteUserSuccess) {
+      dispatch(serverApi.util.invalidateTags(["Users"]));
+      deleteModal.onClose();
+      window.alert("Usuário deletado!");
+      setIdSelectedToDelete("");
+    }
+  }, [isDeleteUserSuccess]);
+
+  /**
+   * First rendering
+   */
+  useEffect(() => {
+    dispatch(serverApi.util.invalidateTags(["Users"]));
+  }, []);
 
   return (
     <Box>
@@ -75,7 +182,7 @@ export function UserList() {
             </Button>
           </Flex>
 
-          {isLoadingData ? (
+          {loadingUsers ? (
             <Box alignItems="center" justifyContent="center">
               <Text textAlign="center" fontWeight="bold" fontSize="2xl">
                 Carregando os dados
@@ -94,7 +201,7 @@ export function UserList() {
                 </Tr>
               </Thead>
               <Tbody>
-                {data?.map((user) => (
+                {users?.map((user) => (
                   <Tr key={user.id}>
                     <Td px={["4", "4", "6"]}>{user.registry}</Td>
                     <Td>
@@ -113,7 +220,7 @@ export function UserList() {
                           size="sm"
                           fontSize="sm"
                           colorScheme="purple"
-                          onClick={editModal.onOpen}
+                          onClick={() => handleOpenModalToEditUser(user.id)}
                           mb="2"
                         >
                           <Icon as={PencilSimpleLine} />
@@ -126,43 +233,55 @@ export function UserList() {
                           colorScheme="purple"
                           alignItems="center"
                           justifyContent="center"
-                          onClick={deleteModal.onOpen}
+                          onClick={() => handleOpenModalToDeleteUser(user.id)}
                         >
                           <Icon as={TrashSimple} />
                         </Button>
                       </Td>
-                    ) : null}
+                    ) : (
+                      <Td flexDirection="row"></Td>
+                    )}
                   </Tr>
                 ))}
               </Tbody>
             </Table>
           )}
           <Pagination />
-
         </Box>
       </Flex>
       {/* MODAL EDITING */}
       <Modal isOpen={editModal.isOpen} onClose={editModal.onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent as="form" onSubmit={handleSubmit(handleUpdateUser)}>
           <ModalHeader>Editar Usuário</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <Input type="text" name="name" label="Nome Completo" />
-            <Input type="text" name="birthday" label="Data de nascimento" />
+            <Input
+              type="text"
+              label="Nome Completo"
+              placeholder={userData?.name}
+              {...register("name")}
+              error={errors.name}
+            />
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
-              Atualizar
-            </Button>
             <Button
               onClick={editModal.onClose}
               variant="outline"
               colorScheme="blue"
               _hover={{ backgroundColor: "gray.700" }}
+              mr={3}
             >
               Fechar
+            </Button>
+            <Button
+              type="submit"
+              colorScheme="blue"
+              isLoading={isUpdateUserLoading}
+              disabled={!isValid}
+            >
+              Atualizar
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -179,16 +298,17 @@ export function UserList() {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
-              Deletar
-            </Button>
             <Button
+              mr={3}
               onClick={deleteModal.onClose}
               variant="outline"
               colorScheme="blue"
               _hover={{ backgroundColor: "gray.700" }}
             >
               Fechar
+            </Button>
+            <Button colorScheme="blue" onClick={handleDeleteUserById}>
+              Deletar
             </Button>
           </ModalFooter>
         </ModalContent>

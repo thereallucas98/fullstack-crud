@@ -1,7 +1,11 @@
 import { Flex, Icon, Input } from "@chakra-ui/react";
 import { MagnifyingGlass } from "phosphor-react";
 
+import { useHeader } from "../../contexts/HeaderContext";
+
 export function SearchBox() {
+  const { changeValue } = useHeader();
+
   return (
     <Flex
       as="label"
@@ -25,6 +29,7 @@ export function SearchBox() {
         _placeholder={{
           color: "gray.400",
         }}
+        onChange={(e) => changeValue(e.target.value)}
       />
       <Icon as={MagnifyingGlass} fontSize="24" />
     </Flex>

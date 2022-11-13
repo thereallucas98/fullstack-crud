@@ -1,4 +1,9 @@
-import { FormEvent, forwardRef, ForwardRefRenderFunction, useCallback } from "react";
+import {
+  FormEvent,
+  forwardRef,
+  ForwardRefRenderFunction,
+  useCallback,
+} from "react";
 
 import { FieldError } from "react-hook-form";
 
@@ -23,10 +28,10 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   ref
 ) => {
   const handleKeyUp = useCallback((e: FormEvent<HTMLInputElement>) => {
-    if (mask && mask === 'date') {
+    if (mask && mask === "date") {
       dateFormat(e);
     }
-  }, []); 
+  }, []);
 
   return (
     <FormControl isInvalid={!!error}>

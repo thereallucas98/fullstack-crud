@@ -6,16 +6,19 @@ import { Provider as ReduxProvider } from "react-redux";
 import store from "./redux/store";
 import { Routes } from "./routes";
 import { theme } from "./styles/theme";
+import { HeaderProvider } from "./contexts/HeaderContext";
 
 function App() {
   return (
     <ReduxProvider store={store}>
       <ChakraProvider theme={theme}>
-        <SidebarDrawerProvider>
-          <BrowserRouter>
-            <Routes />
-          </BrowserRouter>
-        </SidebarDrawerProvider>
+        <HeaderProvider>
+          <SidebarDrawerProvider>
+            <BrowserRouter>
+              <Routes />
+            </BrowserRouter>
+          </SidebarDrawerProvider>
+        </HeaderProvider>
       </ChakraProvider>
     </ReduxProvider>
   );

@@ -8,12 +8,18 @@ export function SidebarNav() {
   return (
     <Stack spacing="12" align="flex-start">
       <NavSection title="geral">
-        <NavLink hrefString="/" icon={House}>Dashboard</NavLink>
-        <NavLink hrefString="/users" icon={Users}>Usuários</NavLink>
+        <NavLink hrefString="/" icon={House}>
+          Dashboard
+        </NavLink>
+        <NavLink hrefString="/users" icon={Users}>
+          Usuários
+        </NavLink>
       </NavSection>
 
       <NavSection title="Configurações">
-        <NavLink hrefString="/profile" icon={User}>Perfil</NavLink>
+        <NavLink hrefString="/profile" icon={User}>
+          Perfil
+        </NavLink>
       </NavSection>
     </Stack>
   );

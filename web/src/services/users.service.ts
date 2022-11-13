@@ -9,7 +9,16 @@ interface IUser {
 }
 
 interface IRequestParams {
-  q?: string;
+  name_search?: string | null | undefined
+}
+
+interface IRequestUserParams {
+  id: string;
+}
+
+interface IRequestUpdateUser {
+  id: string;
+  name: string;
 }
 
 interface IRequestCreateUser {
@@ -21,11 +30,13 @@ interface IRequestCreateUser {
 
 export const usersServiceApi = serverApi.injectEndpoints({
   endpoints: (build) => ({
-    getUsers: build.query<IUser[], void>({
-      query: () => ({
+    getUsers: build.query<IUser[], IRequestParams>({
+      query: (params) => ({
         url: "/users",
+        params,
         method: "GET",
       }),
+      providesTags: ["Users"],
     }),
     createUser: build.mutation<void, IRequestCreateUser>({
       query: (body) => ({
@@ -34,7 +45,34 @@ export const usersServiceApi = serverApi.injectEndpoints({
         method: "POST",
       }),
     }),
+    deleteUser: build.mutation<void, IRequestUserParams>({
+      query: ({ id }) => ({
+        url: `/users/soft-delete/${id}`,
+        method: "PATCH",
+      }),
+    }),
+    updateUser: build.mutation<void, IRequestUpdateUser>({
+      query: ({ id, name }) => ({
+        url: `/users/${id}`,
+        body: {
+          name,
+        },
+        method: "PATCH",
+      }),
+    }),
+    getUser: build.query<IUser, IRequestUserParams>({
+      query: ({ id }) => ({
+        url: `/users/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetUsersQuery, useCreateUserMutation } = usersServiceApi;
+export const {
+  useGetUserQuery,
+  useGetUsersQuery,
+  useCreateUserMutation,
+  useDeleteUserMutation,
+  useUpdateUserMutation,
+} = usersServiceApi;

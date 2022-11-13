@@ -10,14 +10,13 @@ interface NavLinkProps extends LinkProps {
 
 export function NavLink({ icon, children, hrefString, ...rest }: NavLinkProps) {
   const isActive = true;
-  
+
   return (
     <Link
       as={RRLink}
       to={hrefString}
       _activeLink={{
-        color: 'blue.900',
-
+        color: "blue.900",
       }}
       display="flex"
       alignItems="center"

@@ -18,5 +18,5 @@ export const serverApi = createApi({
   }),
   endpoints: () => ({}),
   reducerPath: "serverApi",
-  tagTypes: [],
+  tagTypes: ["Users"],
 });

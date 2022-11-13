@@ -49,13 +49,12 @@ export function Profile() {
   const handleUpdateAccount: SubmitHandler<AccountFormData> = async (
     values
   ) => {
-    console.log("oi")
     updateAccount(values);
   };
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(updateUserProfile({ name: data?.name!}))
+      dispatch(updateUserProfile({ name: data?.name! }));
     }
   }, [isSuccess, dispatch]);
 
