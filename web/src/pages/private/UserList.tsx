@@ -122,6 +122,8 @@ export function UserList() {
     if (isUpdateUserSuccess) {
       editModal.onClose()
       setIdSelectedToEdit('')
+      // this is not good practice. but i have some issue that I could not
+      // figure out how to handle yet.
       window.location.reload()
     }
   }, [isUpdateUserSuccess, dispatch, editModal])
@@ -154,6 +156,8 @@ export function UserList() {
       console.log('oi delete users')
       deleteModal.onClose()
       setIdSelectedToDelete('')
+      // this is not good practice. but i have some issue that I could not
+      // figure out how to handle yet.
       window.location.reload()
     }
   }, [isDeleteUserSuccess, deleteModal, dispatch])
