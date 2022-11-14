@@ -21,7 +21,7 @@ export default class SoftDeleteService {
 
     // user.is_deleted = true;
 
-    await usersRepository.delete(user);
+    await usersRepository.remove(user);
 
     return user;
   }
