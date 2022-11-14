@@ -120,10 +120,9 @@ export function UserList() {
 
   useEffect(() => {
     if (isUpdateUserSuccess) {
-      dispatch(serverApi.util.invalidateTags(['Users']))
       editModal.onClose()
-      window.alert('Usuário atualizado')
       setIdSelectedToEdit('')
+      window.location.reload()
     }
   }, [isUpdateUserSuccess, dispatch, editModal])
 
@@ -152,10 +151,10 @@ export function UserList() {
 
   useEffect(() => {
     if (isDeleteUserSuccess) {
-      dispatch(serverApi.util.invalidateTags(['Users']))
+      console.log('oi delete users')
       deleteModal.onClose()
-      window.alert('Usuário deletado!')
       setIdSelectedToDelete('')
+      window.location.reload()
     }
   }, [isDeleteUserSuccess, deleteModal, dispatch])
 

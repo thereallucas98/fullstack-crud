@@ -1,6 +1,15 @@
 import { AnyAction, combineReducers, configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { PersistConfig, persistReducer } from 'redux-persist'
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PersistConfig,
+  persistReducer,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { serverApi } from '../api/server.service'
 
@@ -35,7 +44,15 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(customMiddleware),
+    getDefaultMiddleware({
+      /**
+       * Using as recommended in {@link https://redux-toolkit.js.org/ @reduxjs/toolkit} docs
+       * @see https://redux-toolkit.js.org/usage/usage-guide#use-with-redux-persist
+       */
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(customMiddleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
