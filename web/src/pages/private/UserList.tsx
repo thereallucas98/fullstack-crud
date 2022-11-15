@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useState } from 'react'
 import {
   Box,
@@ -118,16 +119,6 @@ export function UserList() {
     updateUser({ id: idSelectedToEdit, name: values.name })
   }
 
-  useEffect(() => {
-    if (isUpdateUserSuccess) {
-      editModal.onClose()
-      setIdSelectedToEdit('')
-      // this is not good practice. but i have some issue that I could not
-      // figure out how to handle yet.
-      window.location.reload()
-    }
-  }, [isUpdateUserSuccess, dispatch, editModal])
-
   /**
    * Delete User Wrapepr
    */
@@ -151,23 +142,23 @@ export function UserList() {
     deleteUser({ id: idSelectedToDelete })
   }, [deleteUser, idSelectedToDelete])
 
-  useEffect(() => {
-    if (isDeleteUserSuccess) {
-      console.log('oi delete users')
-      deleteModal.onClose()
-      setIdSelectedToDelete('')
-      // this is not good practice. but i have some issue that I could not
-      // figure out how to handle yet.
-      window.location.reload()
-    }
-  }, [isDeleteUserSuccess, deleteModal, dispatch])
+  const handleEmptyModals = useCallback(() => {
+    editModal.onClose()
+    deleteModal.onClose()
+
+    setIdSelectedToDelete('')
+    setIdSelectedToEdit('')
+  }, [deleteModal, editModal])
 
   /**
    * First rendering
    */
   useEffect(() => {
     dispatch(serverApi.util.invalidateTags(['Users']))
-  }, [dispatch])
+    if ((isDeleteUserSuccess || isUpdateUserSuccess) && !loadingUsers) {
+      handleEmptyModals()
+    }
+  }, [isDeleteUserSuccess, isUpdateUserSuccess])
 
   return (
     <Box>

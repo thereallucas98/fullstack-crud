@@ -10,7 +10,6 @@ export const useGetUserList = ({ q = undefined }: useGetUserListProps) => {
     isLoading,
     data: users,
   } = useGetUsersQuery({ name_search: q })
-
   return {
     users,
     loadingUsers: isFetching || isLoading,
